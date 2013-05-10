@@ -4,7 +4,7 @@
 
 trainFile = /u/nlp/data/ner/goodClassifiers/data/conll.jenny.train
 testFile = /u/nlp/data/ner/goodClassifiers/data/conll.jenny.testa
-serializeTo = conll.4class.newdistsim.crf.ser.gz
+serializeTo = english.conll.4class.distsim.crf.ser.gz
 
 useDistSim = true
 distSimLexicon = /u/nlp/data/pos_tags_are_useless/egw4-reut.512.clusters

@@ -28,7 +28,7 @@ Add a dependency on the CLAVIN-NERD project:
 <dependency>
    <groupId>com.berico</groupId>
    <artifactId>clavin-nerd</artifactId>
-   <version>0.3.1</version>
+   <version>0.3.3-RELEASE</version>
 </dependency>
 ```
 

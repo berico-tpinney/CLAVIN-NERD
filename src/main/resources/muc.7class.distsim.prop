@@ -1,6 +1,6 @@
 trainFile = /u/nlp/data/ner/goodClassifiers/data/muc67.jenny.train
 testFile = /u/nlp/data/ner/goodClassifiers/data/muc67.jenny.test
-serializeTo = muc.7class.newdistsim.crf.ser.gz
+serializeTo = english.muc.7class.distsim.crf.ser.gz
 
 distSimLexicon = /u/nlp/data/pos_tags_are_useless/egw4-reut.512.clusters
 useDistSim = true

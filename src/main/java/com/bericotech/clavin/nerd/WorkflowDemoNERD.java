@@ -34,7 +34,7 @@ import com.bericotech.clavin.util.TextUtils;
  * 
  * ====================================================================
  * 
- * WorkflowDemo.java
+ * WorkflowDemoNERD.java
  * 
  *###################################################################*/
 
@@ -42,7 +42,7 @@ import com.bericotech.clavin.util.TextUtils;
  * Quick example showing how to use CLAVIN's capabilities.
  * 
  */
-public class WorkflowDemo {
+public class WorkflowDemoNERD {
 
     /**
      * Run this after installing & configuring CLAVIN to get a sense of

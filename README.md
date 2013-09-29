@@ -1,96 +1,42 @@
 # CLAVIN-NERD
 --------------
-Bindings for the Stanford Named Entity Recognizer (NER), which we affectionately call NERD.
+CLAVIN-NERD is a GPL-licensed "wrapper project" that connects the Apache-licensed CLAVIN geoparser with the GPL-licensed Stanford NER entity extractor.
 
-## Installation / Configuration
+Using CLAVIN with Stanford NER (i.e., the CLAVIN-NERD distribution) results in significantly higher accuracy than with the default Apache OpenNLP NameFinder entity extractor. We recommend using CLAVIN-NERD for any production applications. Stanford NER is not included as the default entity extractor in the standard CLAVIN release because Stanford NER is GPL-licensed, while we are committed to distributing CLAVIN itself via the Apache License. Thus, the GPL-licensed CLAVIN-NERD distribution makes CLAVIN available for use in its optimal form (that is, working with Stanford NER) while preserving the freedom of the core CLAVIN source code under the terms of the Apache License.
 
-Getting CLAVIN-NERD integrated with CLAVIN is quite simple.
+## How to use CLAVIN-NERD:
 
-### Get it from Berico's Nexus Repo
+Please refer to the instructions for getting started with CLAVIN before attempting to work with CLAVIN-NERD. In particular, you must download the GeoNames.org gazetteer and build the corresponding Lucene index for CLAVIN before using CLAVIN-NERD.
 
-Reference the Berico Technologies Nexus Repository in your Maven `pom.xml`:
+Once you've used CLAVIN to build the required Lucene index from the GeoNames.org gazetteer, consult `WorkflowDemoNERD.java` for an example of how to use CLAVIN-NERD. The main difference between using CLAVIN and CLAVIN-NERD is in the arguments passed to the `GeoParserFactory` class to instantiate a `GeoParser` object. With CLAVIN-NERD, we need to specify that we want to use the `StanfordExtractor` to extract location names from text.
 
-```xml
-<repositories>
-  <repository>
-     <id>nexus.bericotechnologies.com</id>
-     <name>Berico Technologies Nexus</name>
-     <url>http://nexus.bericotechnologies.com/content/groups/public</url>
-     <releases><enabled>true</enabled></releases>
-     <snapshots><enabled>true</enabled></snapshots>
-  </repository>
-</repositories>
-```
+Here's an example call to `GeoParserFactory` where we specify that the `StanfordExtractor` should be used, as seen in the `WorkflowDemoNERD` class:
 
-Add a dependency on the CLAVIN-NERD project:
+    GeoParser parser = GeoParserFactory.getDefault("./IndexDirectory", new StanfordExtractor(), 1, 1, false);
+
+**Don't forget:** Loading the worldwide gazetteer uses a non-trivial amount of memory. When using CLAVIN-NERD in your own programs, if you encounter `Java heap space` errors, bump up the maximum heap size for your JVM. Allocating 2GB (e.g., `-Xmx2g`) is a good place to start.
+
+### Get it from Maven Central
+
+**Coming Soon:** CLAVIN-NERD will also be distributed in binary form via the Maven Central Nexus repository. Once released, you will be able to obtain it by adding the following Maven dependency to your projects's `pom.xml` file:
 
 ```xml
 <dependency>
-   <groupId>com.berico</groupId>
-   <artifactId>clavin-nerd</artifactId>
-   <version>0.3.3-RELEASE</version>
+    <groupId>com.bericotech</groupId>
+    <artifactId>clavin-nerd</artifactId>
+    <version>1.0.0rc1</version>
 </dependency>
 ```
 
-### Instantiate Programmatically
-
-Instantiate a `SequenceClassifierProvider`, inject it into the `NerdLocationExtractor`, and inject that into `GeoParser`.
-
-```java
-SequenceClassifierProvider sequenceClassifierProvider = 
-	new ExternalSequenceClassifierProvider(
-		"src/main/resources/all.3class.distsim.crf.ser.gz");
-		
-LocationExtractor locationExtractor = 
-	new NerdLocationExtractor(sequenceClassifierProvider);
-	
-int maxHitDepth = 1;
-
-int maxContentWindow = 1;
-
-boolean useFuzzyMatching = false;
-
-GeoParser parser = 
-	new GeoParser(
-		"/path/to/index", locationExtractor, 
-		maxHitDepth, maxContentWindow, useFuzzyMatching);
-```
-
-### Using a Spring Container
-
-This is an example Spring Application Context file (it's in the `src/main/resource` directory).
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean id="locationExtractor" class="com.berico.clavin.nerd.NerdLocationExtractor">
-		<constructor-arg name="namedEntityRecognizer">
-			<bean class="com.berico.clavin.nerd.ExternalSequenceClassifierProvider">
-				<constructor-arg value="src/main/resources/all.3class.distsim.crf.ser.gz" />
-			</bean>
-		</constructor-arg>
-	</bean>
-
-	<bean id="clavin" class="com.berico.clavin.GeoParser">
-		<constructor-arg name="pathToIndex" value="./IndexDirectory/" />
-		<constructor-arg name="maxHitDepth" value="1" />
-		<constructor-arg name="maxContextWindow" value="1" />
-		<constructor-arg name="extractor" ref="locationExtractor" />
-		<constructor-arg name="fuzzy" value="true" />
-	</bean>
-</beans>
-```
+**Please Note:** The above Maven Central dependency is NOT YET ACTIVE.
 
 ## License - GPLv2
 
-Since the Stanford NER Library is GPLv2, CLAVIN-NERD is as well (but not CLAVIN).
+Since the Stanford NER Library is GPLv2, CLAVIN-NERD is as well (but not CLAVIN, which remains under the Apache License, version 2).
 
 -------------------
 
+```
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 
@@ -430,3 +376,4 @@ proprietary programs.  If your program is a subroutine library, you may
 consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
+```

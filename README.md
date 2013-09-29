@@ -32,7 +32,7 @@ Here's an example call to `GeoParserFactory` where we specify that the `Stanford
 
 ## License:
 
-Since the Stanford NER Library is GPLv2, CLAVIN-NERD is as well (but not CLAVIN, which remains under the Apache License, version 2).
+Since the Stanford CoreNLP NER library is licensed via the GPL, CLAVIN-NERD is as well. However, CLAVIN itself remains under the Apache License, version 2.
 
 -------------------
 

@@ -16,7 +16,7 @@
   <name>clavin-nerd</name>
   <description>CLAVIN-NERD is a GPL-licensed "wrapper project" that
   connects the Apache-licensed CLAVIN geoparser with the GPL-licensed
-  Stanford NER entity extractor.</description>
+  Stanford CoreNLP NER entity extractor.</description>
 
   <licenses>
     <license>

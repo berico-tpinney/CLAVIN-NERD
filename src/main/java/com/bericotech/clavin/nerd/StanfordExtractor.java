@@ -3,9 +3,12 @@ package com.bericotech.clavin.nerd;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 
 import com.bericotech.clavin.extractor.LocationExtractor;
 import com.bericotech.clavin.extractor.LocationOccurrence;
@@ -90,14 +93,28 @@ public class StanfordExtractor implements LocationExtractor {
         //        CRFClassifier.getClassifier(new File(NERmodel));
 
     	// Should this use "models/all.3class.distsim.prop" instead?
-    	namedEntityRecognizer = (AbstractSequenceClassifier<CoreMap>) 
-                CRFClassifier.getJarClassifier("/models/all.3class.distsim.crf.ser.gz", System.getProperties());
     	
+    	InputStream mpis = this.getClass().getClassLoader().getResourceAsStream("models/all.3class.distsim.prop");
+    	Properties mp = new Properties();
+    	mp.load(mpis);
+    	
+    	
+    	// namedEntityRecognizer = (AbstractSequenceClassifier<CoreMap>) 
+        //        CRFClassifier.getJarClassifier("/models/all.3class.distsim.crf.ser.gz", System.getProperties());
+   
+       	
+    	namedEntityRecognizer = (AbstractSequenceClassifier<CoreMap>) 
+                CRFClassifier.getJarClassifier("/models/all.3class.distsim.crf.ser.gz", mp);
+ 
 
+    	
         // populate set of demonyms to filter out from results, source:
         // http://en.wikipedia.org/wiki/List_of_adjectival_and_demonymic_forms_for_countries_and_nations
         demonyms = new HashSet<String>();
-        BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Demonyms.txt"));  
+        // BufferedReader br = new BufferedReader(new FileReader("src/main/resources/Demonyms.txt"));  
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("Demonyms.txt")));
+        
+        
         String line = null;  
         while ((line = br.readLine()) != null)
             demonyms.add(line);

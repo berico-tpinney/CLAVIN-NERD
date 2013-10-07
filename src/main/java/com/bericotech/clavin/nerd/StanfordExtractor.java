@@ -70,7 +70,7 @@ public class StanfordExtractor implements LocationExtractor {
      * @throws ClassNotFoundException
      */
     public StanfordExtractor() throws ClassCastException, IOException, ClassNotFoundException {
-        this("src/main/resources/models/all.3class.distsim.crf.ser.gz");
+        this("all.3class.distsim.crf.ser.gz", "all.3class.distsim.prop" );
     }
     
     /**
@@ -79,34 +79,22 @@ public class StanfordExtractor implements LocationExtractor {
      * language model.
      * 
      * @param NERmodel                      path to Stanford NER language model
+     * @param NERprop						path to property file for Stanford NER language model
      * @throws IOException 
      * @throws ClassNotFoundException 
      * @throws ClassCastException 
      */
-    @SuppressWarnings("unchecked")
-    public StanfordExtractor(String NERmodel) throws IOException, ClassCastException, ClassNotFoundException {
+    //@SuppressWarnings("unchecked")
+    public StanfordExtractor(String NERmodel, String NERprop) throws IOException, ClassCastException, ClassNotFoundException {
     	
-    	//namedEntityRecognizer = (AbstractSequenceClassifier<CoreMap>) 
-        //        CRFClassifier.getClassifier(NERmodel, System.getProperties());
-
-       	//namedEntityRecognizer = (AbstractSequenceClassifier<CoreMap>) 
-        //        CRFClassifier.getClassifier(new File(NERmodel));
-
-    	// Should this use "models/all.3class.distsim.prop" instead?
-    	
-    	InputStream mpis = this.getClass().getClassLoader().getResourceAsStream("models/all.3class.distsim.prop");
+    	InputStream mpis = this.getClass().getClassLoader().getResourceAsStream("models/" + NERprop);
     	Properties mp = new Properties();
     	mp.load(mpis);
     	
-    	
-    	// namedEntityRecognizer = (AbstractSequenceClassifier<CoreMap>) 
-        //        CRFClassifier.getJarClassifier("/models/all.3class.distsim.crf.ser.gz", System.getProperties());
-   
        	
     	namedEntityRecognizer = (AbstractSequenceClassifier<CoreMap>) 
-                CRFClassifier.getJarClassifier("/models/all.3class.distsim.crf.ser.gz", mp);
- 
-
+                CRFClassifier.getJarClassifier("/models/" + NERmodel, mp);
+                		
     	
         // populate set of demonyms to filter out from results, source:
         // http://en.wikipedia.org/wiki/List_of_adjectival_and_demonymic_forms_for_countries_and_nations

@@ -70,7 +70,7 @@ public class StanfordExtractor implements LocationExtractor {
      * @throws ClassNotFoundException
      */
     public StanfordExtractor() throws ClassCastException, IOException, ClassNotFoundException {
-        this("all.3class.distsim.crf.ser.gz", "all.3class.distsim.prop" );
+        this("english.all.3class.distsim.crf.ser.gz", "english.all.3class.distsim.prop" );
     }
     
     /**

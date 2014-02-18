@@ -171,16 +171,16 @@
   </build>
 
   <dependencies>
-  	<dependency>
-        <groupId>edu.stanford.nlp</groupId>
-        <artifactId>stanford-corenlp</artifactId>
-        <version>3.2.0</version>
+    <dependency>
+      <groupId>edu.stanford.nlp</groupId>
+      <artifactId>stanford-corenlp</artifactId>
+      <version>3.3.1</version>
     </dependency>
-	<dependency>
-		<groupId>com.bericotech</groupId>
-		<artifactId>clavin</artifactId>
-		<version>1.0.0rc7</version>
-	</dependency>
+    <dependency>
+      <groupId>com.bericotech</groupId>
+      <artifactId>clavin</artifactId>
+      <version>1.0.0</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

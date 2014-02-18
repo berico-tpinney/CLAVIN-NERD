@@ -1,6 +1,7 @@
 package com.bericotech.clavin.nerd;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import com.bericotech.clavin.GeoParser;
@@ -53,6 +54,14 @@ public class WorkflowDemoNERD {
      */
     public static void main(String[] args) throws Exception {
         
+    	geotagArticle();
+    	geotagUppercaseArticle();
+    	
+        // And we're done...
+        System.out.println("\n\"That's all folks!\"");
+    }
+    
+    private static void geotagArticle() throws Exception {
         // Instantiate a CLAVIN GeoParser using the StanfordExtractor
         GeoParser parser = GeoParserFactory.getDefault("./IndexDirectory", new StanfordExtractor(), 1, 1, false);
         
@@ -69,7 +78,27 @@ public class WorkflowDemoNERD {
         for (ResolvedLocation resolvedLocation : resolvedLocations)
             System.out.println(resolvedLocation);
         
-        // And we're done...
-        System.out.println("\n\"That's all folks!\"");
     }
+    
+    private static void geotagUppercaseArticle() throws Exception {
+        // Instantiate a CLAVIN GeoParser using the StanfordExtractor with "caseless" models
+        GeoParser parser = GeoParserFactory.getDefault("./IndexDirectory", new StanfordExtractor("english.all.3class.caseless.distsim.crf.ser.gz", "english.all.3class.caseless.distsim.prop"), 1, 1, false);
+        
+        // Unstructured uppercase text file about Somalia to be geoparsed
+        File inputFile = new File("src/test/resources/sample-docs/Somalia-doc-uppercase.txt");
+        
+        // Grab the contents of the text file as a String
+        String inputString = TextUtils.fileToString(inputFile);
+        
+        // Parse location names in the text into geographic entities
+        List<ResolvedLocation> resolvedLocations = parser.parse(inputString);
+        
+        // Display the ResolvedLocations found for the location names
+        for (ResolvedLocation resolvedLocation : resolvedLocations)
+            System.out.println(resolvedLocation);
+        
+    }
+    
+    
+    
 }
